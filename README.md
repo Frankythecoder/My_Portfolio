@@ -21,7 +21,7 @@ pip install -r requirements.txt
 # Step 4: Install the necessary frontend dependencies.
 npm install
 
-# Step 5: Start the development server with auto-reloading and an instant preview.
+# Step 5: Start the frontend development server with auto-reloading and an instant preview.
 npm run dev
 
 # Step 6: Start the node server for receiving emails.
