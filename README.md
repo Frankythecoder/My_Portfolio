@@ -36,8 +36,16 @@ uvicorn app:app --reload --port 8000
 
 This project is built with:
 
+Frontend:
 - Vite
 - TypeScript
 - React
 - shadcn-ui
 - Tailwind CSS
+
+Backend:
+- Python
+- Node.js
+- OpenAI API
+- uvicorn
+- FastAPI
