@@ -1,0 +1,45 @@
+# Frank's Portfolio Information
+
+## Personal Details
+- Name: Frank Jeyasingh
+- Email: diviyanfrankjeyasingh@gmail.com
+- Phone: +91 (893) 976-9590
+- Location: Chennai, TN, India
+
+## Professional Experience
+- Full Stack Developer with 5+ years of experience
+- Specializes in React, TypeScript, Node.js, Python
+- Has worked on e-commerce platforms, AI-powered applications, and modern web applications
+- Experience with both frontend and backend development
+
+## Technical Skills
+- Frontend: React, TypeScript, JavaScript, HTML, CSS, Tailwind CSS
+- Backend: Node.js, Python, Express.js, FastAPI
+- Databases: MongoDB, PostgreSQL, MySQL
+- Tools: Git, Docker, AWS, Vite, Webpack
+- Frameworks: Next.js, Vue.js (some experience)
+
+## Education
+- Master's degree in Computer Science from University of Technology (2019-2021)
+- Bachelor's degree from State University (2015-2019)
+
+## Projects
+- 50+ completed projects including:
+  - E-commerce platforms
+  - Task management applications
+  - Weather dashboards
+  - AI-powered applications
+  - Portfolio websites
+
+## Interests
+- Web development
+- AI and machine learning
+- Open source contributions
+- Learning new technologies
+- Building scalable applications
+
+## Availability
+- Open to new opportunities
+- Available for freelance projects
+- Interested in full-time positions
+- Always excited to discuss potential collaborations
