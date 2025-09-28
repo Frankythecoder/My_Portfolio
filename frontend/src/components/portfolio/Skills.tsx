@@ -66,8 +66,8 @@ const Skills = () => {
             {[
               { skill: "React/TypeScript", level: 90 },
               { skill: "Django/Python", level: 95 },
-              { skill: "Tools and Cloud", level: 85 },
-              { skill: "Database", level: 80 }
+              { skill: "Tools and Cloud", level: 80 },
+              { skill: "Database", level: 70 }
             ].map((item) => (
               <div key={item.skill} className="space-y-2">
                 <div className="flex justify-between text-sm">
