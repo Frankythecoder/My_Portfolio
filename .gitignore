@@ -46,3 +46,4 @@ venv.bak/
 *.njsproj
 *.sln
 *.sw?
+info.txt
