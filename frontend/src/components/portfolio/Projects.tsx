@@ -14,7 +14,7 @@ const Projects = () => {
     },
     {
       title: "AI Gemini Agent",
-      description: "A real time Gemini agent that uses Google Gemini's api and acts as an agent for file and code editing in code editors.",
+      description: "A real time Gemini agent that uses Google Gemini's api and acts as an agent for file handling locally and code editing in code editors.",
       technologies: ["Django", "HTML", "CSS", "Gemini API", "Python"],
       github: "https://github.com/Frankythecoder/ai_agent.git",
       featured: true
