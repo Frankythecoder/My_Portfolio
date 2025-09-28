@@ -64,8 +64,8 @@ const Skills = () => {
           <h3 className="text-2xl font-semibold mb-8 text-center">Proficiency Levels</h3>
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { skill: "React/TypeScript", level: 90 },
-              { skill: "Django/Python", level: 95 },
+              { skill: "Frontend", level: 90 },
+              { skill: "Backend/AI", level: 95 },
               { skill: "Tools and Cloud", level: 80 },
               { skill: "Database", level: 70 }
             ].map((item) => (
