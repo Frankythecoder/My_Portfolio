@@ -1,7 +1,7 @@
 import os
 from openai import OpenAI
 import json
-from typing import Optional, Dict, Any
+from typing import Dict, Any
 from tools import tools, FUNCTION_DEFINITIONS
 from dotenv import load_dotenv
 

@@ -2,11 +2,8 @@
 Agentic Tools for the AI Assistant
 These tools enable the AI to perform actions beyond just responding
 """
-import json
 import requests
-from datetime import datetime, timedelta
-from typing import Dict, List, Any, Optional
-import os
+from typing import Any
 
 class AgenticTools:
     def __init__(self):
