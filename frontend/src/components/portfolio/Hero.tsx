@@ -36,7 +36,7 @@ const Hero = () => {
           </h1>
           
           <h2 className="text-2xl md:text-3xl text-muted-foreground mb-8 font-light">
-            Agentic AI engineer aspiring
+            Agentic AI Engineer aspiring
           </h2>
           
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
