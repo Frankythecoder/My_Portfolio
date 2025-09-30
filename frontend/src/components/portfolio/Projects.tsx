@@ -6,9 +6,9 @@ import { ExternalLink, Github } from 'lucide-react';
 const Projects = () => {
   const projects = [
     {
-      title: "AI Handwritten Text Scanner",
-      description: "A Django app that uses AWS textract api for OCR and processing handwritten text in PDFs.",
-      technologies: ["React", "TypeScript", "Django", "Python", "AWS Textract"],
+      title: "AI-Powered Handwritten Text Recognition with AWS Textract and evaluation of the extracted text withb the corrected text using OpenAI",
+      description: "A Django app that uses AWS textract API for OCR and processing handwritten text in PDFs and then uses OpenAI API to compare and evaluate the extracted text with the corrected text and give the final analysis.",
+      technologies: ["React", "TypeScript", "Django", "Python", "AWS-Textract", "OpenAI"],
       github: "https://github.com/Frankythecoder/ai_exams.git",
       featured: true
     },
