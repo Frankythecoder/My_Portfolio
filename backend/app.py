@@ -1,7 +1,6 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from fastapi.responses import FileResponse
 
 from responses import generate_bot_response
 
@@ -26,7 +25,7 @@ class ChatResponse(BaseModel):
 
 @app.get("/favicon.ico", include_in_schema=False)
 def favicon():
-  return FileResponse("favicon.ico")
+  return Response(status_code=204)
 
 
 @app.get("/")

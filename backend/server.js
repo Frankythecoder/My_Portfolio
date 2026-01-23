@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '.env' });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
