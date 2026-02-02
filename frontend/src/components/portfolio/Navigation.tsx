@@ -41,10 +41,13 @@ const Navigation = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="text-2xl font-bold bg-hero-gradient bg-clip-text text-transparent">
-          Portfolio
+        <div className="flex items-center space-x-2 h-14 w-auto">
+          <img src="/frank_sign.png" alt="Logo" className="h-21 w-20"/>
+          <div className="text-2xl font-bold bg-hero-gradient bg-clip-text text-transparent">
+            Frank
+          </div>
         </div>
-        
+
         <div className="hidden md:flex space-x-1">
           {navItems.map((item) => (
             <Button
@@ -61,10 +64,6 @@ const Navigation = () => {
           ))}
         </div>
 
-        {/* Mobile menu button */}
-        <Button variant="ghost" size="sm" className="md:hidden">
-          ☰
-        </Button>
       </div>
     </nav>
   );
