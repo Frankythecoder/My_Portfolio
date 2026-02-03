@@ -6,16 +6,16 @@ import { ExternalLink, Github } from 'lucide-react';
 const Projects = () => {
   const projects = [
     {
-      title: "AI-Powered Handwritten Text Recognition with AWS Textract and evaluation of the extracted text withb the corrected text using OpenAI",
+      title: "Docseron AI",
       description: "A Django app that uses AWS textract API for OCR and processing handwritten text in PDFs and then uses OpenAI API to compare and evaluate the extracted text with the corrected text and give the final analysis.",
       technologies: ["React", "TypeScript", "Django", "Python", "AWS-Textract", "OpenAI"],
       github: "https://github.com/Frankythecoder/ai_exams.git",
       featured: true
     },
     {
-      title: "AI Gemini Agent",
-      description: "A real time Gemini agent that uses Google Gemini's api and acts as an agent for file handling locally and code editing in code editors.",
-      technologies: ["Django", "HTML", "CSS", "Gemini API", "Python"],
+      title: "Agentic AI",
+      description: "A real time OpenAI agent that uses GPT-4o's api, LangChain/LangGraph and acts as an agent for file handling locally and code editing in code editors amongst other tools.",
+      technologies: ["Django", "HTML", "CSS", "GPT-4o API", "Python", "OpenAI"],
       github: "https://github.com/Frankythecoder/ai_agent.git",
       featured: true
     },

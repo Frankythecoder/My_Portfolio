@@ -29,14 +29,11 @@ const Hero = () => {
 
       <div className="container mx-auto px-4 text-center relative z-10 flex flex-col items-center justify-center">
         <div className="animate-fade-in-up">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+          <br></br>
+          <h2 className="text-2xl md:text-6xl font-bold mb-6">
             <span className="bg-hero-gradient bg-clip-text text-transparent">
-              Diviyan Frank Jeyasingh
+              Agentic AI Engineering aspiring
             </span>
-          </h1>
-          
-          <h2 className="text-2xl md:text-3xl text-muted-foreground mb-8 font-light">
-            Agentic AI Engineer aspiring
           </h2>
           
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">

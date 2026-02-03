@@ -44,7 +44,7 @@ const Navigation = () => {
         <div className="flex items-center space-x-2 h-14 w-auto">
           <img src="/frank_sign.png" alt="Logo" className="h-21 w-20"/>
           <div className="text-2xl font-bold bg-hero-gradient bg-clip-text text-transparent">
-            Frank
+            DIVIYAN FRANK JEYASINGH
           </div>
         </div>
 
