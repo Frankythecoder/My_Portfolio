@@ -1,3 +1,4 @@
+import os
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException, Response
@@ -7,11 +8,18 @@ from pydantic import BaseModel, Field
 from responses import generate_bot_response
 
 
+# Comma-separated list, e.g. "https://my-site.vercel.app,http://localhost:8080"
+ALLOWED_ORIGINS = [
+  origin.strip()
+  for origin in os.getenv("ALLOWED_ORIGINS", "http://localhost:8080").split(",")
+  if origin.strip()
+]
+
 app = FastAPI()
 
 app.add_middleware(
   CORSMiddleware,
-  allow_origins=["http://localhost:8080"],
+  allow_origins=ALLOWED_ORIGINS,
   allow_credentials=True,
   allow_methods=["*"],
   allow_headers=["*"],
