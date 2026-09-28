@@ -1,11 +1,17 @@
 import os
 from typing import Literal
 
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from rate_limit import RateLimiter
 from responses import generate_bot_response
+
+
+MAX_MESSAGE_CHARS = 1000
+MAX_TURN_CHARS = 8000
+MAX_HISTORY_TURNS = 20
 
 
 # Comma-separated list, e.g. "https://my-site.vercel.app,http://localhost:8080"
@@ -25,15 +31,28 @@ app.add_middleware(
   allow_headers=["*"],
 )
 
+chat_limiter = RateLimiter(
+  per_minute=int(os.getenv("CHAT_LIMIT_PER_MINUTE", "10")),
+  per_day=int(os.getenv("CHAT_LIMIT_PER_DAY", "50")),
+  global_per_day=int(os.getenv("CHAT_LIMIT_GLOBAL_PER_DAY", "500")),
+)
+
+
+def client_ip(request: Request) -> str:
+  # Behind Render's proxy the visitor's IP is the first X-Forwarded-For entry.
+  # A client can forge it to dodge the per-IP limit; the global cap still applies.
+  forwarded = request.headers.get("x-forwarded-for", "").split(",")[0].strip()
+  return forwarded or (request.client.host if request.client else "unknown")
+
 
 class ChatTurn(BaseModel):
   role: Literal["user", "assistant"]
-  content: str
+  content: str = Field(max_length=MAX_TURN_CHARS)
 
 
 class ChatRequest(BaseModel):
-  message: str
-  history: list[ChatTurn] = Field(default_factory=list)
+  message: str = Field(max_length=MAX_MESSAGE_CHARS)
+  history: list[ChatTurn] = Field(default_factory=list, max_length=MAX_HISTORY_TURNS)
   session_id: str | None = Field(default=None, max_length=64)
 
 
@@ -56,9 +75,12 @@ def root():
 
 
 @app.post("/chat", response_model=ChatResponse)
-def chat(req: ChatRequest):
+def chat(req: ChatRequest, request: Request):
   if not req.message or not req.message.strip():
     raise HTTPException(status_code=400, detail="Message cannot be empty.")
+  limit_message = chat_limiter.check(client_ip(request))
+  if limit_message:
+    raise HTTPException(status_code=429, detail=limit_message)
   reply = generate_bot_response(
     req.message,
     history=[turn.model_dump() for turn in req.history],

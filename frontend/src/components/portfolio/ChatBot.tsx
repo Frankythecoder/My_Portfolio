@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Bot, MessageSquare, Send, X } from 'lucide-react';
-import { api } from '@/lib/api';
+import { api, ApiError } from '@/lib/api';
 
 interface Message {
   id: number;
@@ -9,6 +9,8 @@ interface Message {
 }
 
 const MAX_HISTORY = 12;
+// Must match MAX_MESSAGE_CHARS in backend/app.py
+const MAX_MESSAGE_CHARS = 1000;
 
 const createSessionId = () =>
   typeof crypto !== 'undefined' && 'randomUUID' in crypto
@@ -72,7 +74,11 @@ const ChatBot = () => {
         body: JSON.stringify({ message: question, history, session_id: sessionId }),
       });
       addMessage(result.reply || 'I could not find an answer. Please try asking another question.', 'bot');
-    } catch {
+    } catch (error) {
+      if (error instanceof ApiError && error.status === 429) {
+        addMessage(error.message, 'bot');
+        return;
+      }
       addMessage("The assistant isn't available right now. You can reach Frank at jeyasinghfrankdiviyan@gmail.com.", 'bot');
     } finally {
       setIsLoading(false);
@@ -113,6 +119,7 @@ const ChatBot = () => {
               value={input}
               onChange={(event) => setInput(event.target.value)}
               placeholder="Ask a question…"
+              maxLength={MAX_MESSAGE_CHARS}
               aria-label="Your question"
               disabled={isLoading}
             />
