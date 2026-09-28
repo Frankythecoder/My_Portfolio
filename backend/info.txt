@@ -1,0 +1,68 @@
+# Frank's Portfolio Information
+
+## Personal Details
+- Name: Diviyan Frank Jeyasingh
+- Email: jeyasinghfrankdiviyan@gmail.com
+- Phone: +91 893-976-9590
+- Location: Chennai, India
+- GitHub: Frankythecoder
+- HackerRank: frankdiviyanjey1
+- LinkedIn: diviyanfrank
+- Spoken Languages: English, Tamil
+
+## Summary
+- Undergraduate AI/ML engineer pursuing a B.Tech in Artificial Intelligence & Machine Learning
+- Builds intelligent systems — from autonomous AI agents and state-machine orchestration to full-stack platforms with AI diagnostics
+
+## Professional Experience
+- Techjays — Software Engineering Intern (March 2, 2026 – May 29, 2026)
+  - Built Cortex, an AI chat and RAG assistant delivered as a Django web application, developed end-to-end over a 3-month internship to give end users two complementary chat experiences in a single product
+  - Implemented a Normal chat mode on top of OpenAI's Chat Completions API with multi-file attachment support for text, code, and image inputs, enabling users to converse with the model against rich, mixed-media context
+  - Designed and shipped a Retrieval-Augmented Generation (RAG) mode that answers questions grounded in each user's own documents, backed by a per-user FAISS vector index for isolated, low-latency semantic retrieval
+  - Packaged the app as a single Django/Gunicorn web service and authored the render.yaml blueprint that made Cortex one-click deployable on Render, streamlining hand-off and future iterations by the team
+  - Tech: Django, Gunicorn, OpenAI, FAISS, RAG, Render
+
+## Technical Skills
+- Languages: Python (5/5), C++ (3/5), SQL (2/5), TypeScript (1/5), JavaScript (1/5)
+- Frameworks: Django, Django REST, React, LangChain, LangGraph, Celery
+- AI / ML: TensorFlow, PyTorch, OpenAI API, AWS Textract, ChromaDB
+- Cloud & Tools: AWS (S3, Textract), Docker, PostgreSQL, Git, Playwright, MCP Protocol
+
+## Education
+- B.Tech in Artificial Intelligence & Machine Learning — St. Joseph's College of Engineering, Chennai (2023 – 2027, Expected), CGPA: 7.7 / 10
+- XII grade — Alpha Matriculation Higher Secondary School, Sembakkam (2020 – 2021), 87.1%
+- X grade — Alpha Matriculation Higher Secondary School, Sembakkam (2018 – 2019), 85.4%
+
+## Projects
+- Javelin AI Agent — Autonomous AI Operator with 40+ Tools
+  - Architected a local-first AI operator with dual-mode execution (dry-run planning + per-tool approval), leveraging LangGraph state machines for stateful orchestration and MCP-protocol servers for GitHub and browser automation
+  - Built modules for multimedia recognition (GPT-4o Vision), document CRUD (PDF/DOCX/XLSX/PPTX), Gmail IMAP drafts, Duffel API flight booking, and code execution with syntax validation across 8 languages
+  - Tech: Python, Django, LangChain, LangGraph, GPT-4o, MCP Protocol, Playwright
+- Fraud Detection using ML — Transaction Anomaly Scoring Service
+  - Built an unsupervised fraud detection service for card transactions, fitting eight anomaly detectors on 19 engineered account, device and spending features, with four of them voting on every verdict
+  - Engineered a FastAPI service on Cloud Run with a SHAP-explained surrogate model that turns each vote into a plain-English reason, plus a React dashboard for single, batch and CSV scoring
+  - Tech: Django, React, TypeScript, AWS Textract, OpenAI, Celery, Redis
+- Health Monitoring Bot (Freelance Project) — Full-Stack AI Healthcare Platform
+  - Implemented AI Doctor chat with GPT-4 streaming responses and context-aware medical report injection, plus semantic search over documents using ChromaDB vector embeddings
+  - Tech: Django REST, React, TypeScript, Gemini, ChromaDB
+
+## Certifications
+- Advanced Learning Algorithms — Stanford / DeepLearning.AI
+- Supervised ML: Regression & Classification — Stanford / DeepLearning.AI
+- Programming in Python — Meta
+- Artificial Intelligence — IIT Kanpur
+- Django Web Framework — Meta
+- Databases for Back-End Development — Meta
+
+## Interests
+- AI agents and machine learning (Most favorite)
+- Deep Learning
+- Web development
+- Learning new technologies
+- Building scalable applications
+
+## Availability
+- Open to new opportunities
+- Available for freelance projects
+- Interested in full-time positions
+- Always excited to discuss potential collaborations
