@@ -1,118 +1,115 @@
 import os
-from openai import OpenAI
-import json
-from typing import Dict, Any
-from tools import tools, FUNCTION_DEFINITIONS
+import re
+from typing import Any, Dict, List, Optional
+
 from dotenv import load_dotenv
+from openai import OpenAI
 
-# Load OpenAI API key from environment variable
+from tools import AgenticTools, TOOL_DEFINITIONS, load_personal_info
+
+# Load OpenAI settings from environment variables (before anything reads them)
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 api_key = os.getenv("OPENAI_API_KEY")
-print(f"API Key: {api_key[:10]}..." if api_key else "No API key")
+MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+client = OpenAI(api_key=api_key) if api_key else None
+print(f"OpenAI configured with model {MODEL}" if api_key else "No OpenAI API key; using fallback responses")
 
-def load_personal_info() -> str:
-    """Load personal information from info.txt file"""
-    try:
-        with open("info.txt", "r", encoding="utf-8") as file:
-            return file.read()
-    except FileNotFoundError:
-        return "Personal information file not found."
+tools = AgenticTools(client=client, search_model=MODEL)
 
-def execute_function_call(function_name: str, arguments: Dict[str, Any]) -> str:
-    """Execute a function call and return the result"""
-    try:
-        if hasattr(tools, function_name):
-            func = getattr(tools, function_name)
-            if function_name == "search_web":
-                return func(arguments.get("query", ""))
-            elif function_name == "analyze_skills":
-                return func(arguments.get("job_description", ""))
-            elif function_name == "remember_conversation":
-                return func(
-                    arguments.get("key", ""),
-                    arguments.get("value", "")
-                )
-            elif function_name == "recall_memory":
-                return func(arguments.get("key", ""))
-            elif function_name == "search_jobs":
-                return func(arguments.get("query", ""))
-            else:
-                return f"Function {function_name} not implemented"
-        else:
-            return f"Function {function_name} not found"
-    except Exception as e:
-        return f"Error executing {function_name}: {str(e)}"
+MAX_TOOL_ROUNDS = 5
+MAX_HISTORY_MESSAGES = 12
+MAX_HISTORY_CHARS = 2000
 
-def generate_bot_response(user_message: str) -> str:
-    """Generate agentic response using OpenAI API with function calling"""
-    if not api_key:
+
+def build_system_prompt(session_id: Optional[str]) -> str:
+    memories = tools.get_memories(session_id)
+    remembered = "\n".join(f"- {k}: {v}" for k, v in memories.items()) or "- (nothing yet)"
+    return f"""You are Frank's AI assistant on his portfolio website, with agentic capabilities. You can:
+1. Answer questions about Frank using his information below.
+2. Use tools to perform actions like web search, job search and skill analysis.
+3. Remember facts the visitor shares during this conversation.
+
+Work step by step: call as many tools as a request needs, in sequence, and use each result
+to decide the next step (for example, search_jobs and then analyze_skills on what you found).
+Only state facts about Frank that appear in his information; never invent experience.
+The chat window shows raw text, so never use markdown (no **, #, or [text](url) links);
+use simple numbered lines and write URLs in full. Keep replies concise.
+
+Frank's Information:
+{load_personal_info()}
+
+Facts remembered from this visitor:
+{remembered}"""
+
+
+def _to_plain_text(reply: str) -> str:
+    """The chat widget renders raw text, so strip the markdown models add despite instructions"""
+    reply = re.sub(r"\[([^\]]+)\]\((\S+?)\)", r"\1: \2", reply)
+    reply = re.sub(r"(\*\*|__)(.+?)\1", r"\2", reply)
+    reply = re.sub(r"^#{1,6}\s+", "", reply, flags=re.MULTILINE)
+    return reply.strip()
+
+
+def _clean_history(history: Optional[List[Dict[str, str]]]) -> List[Dict[str, str]]:
+    cleaned = []
+    for turn in (history or [])[-MAX_HISTORY_MESSAGES:]:
+        role, content = turn.get("role"), (turn.get("content") or "").strip()
+        if role in ("user", "assistant") and content:
+            cleaned.append({"role": role, "content": content[:MAX_HISTORY_CHARS]})
+    return cleaned
+
+
+def generate_bot_response(
+    user_message: str,
+    history: Optional[List[Dict[str, str]]] = None,
+    session_id: Optional[str] = None,
+) -> str:
+    """Generate an agentic response: let the model call tools in a loop until it can answer"""
+    if client is None:
         return generate_fallback_response(user_message)
-    
-    personal_info = load_personal_info()
-    
+
+    messages: List[Dict[str, Any]] = [
+        {"role": "system", "content": build_system_prompt(session_id)},
+        *_clean_history(history),
+        {"role": "user", "content": user_message},
+    ]
+
     try:
-        # First, determine if we need to use tools
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {
-                    "role": "system", 
-                    "content": f"""You are Frank's AI assistant with agentic capabilities. You can:
-                    1. Answer questions about Frank using his information.
-                    2. Use tools to perform actions like web search, job search, etc.
-                    3. Remember information across conversations.
-                    4. Analyze job descriptions and provide job search guidance.
-                    
-                    Frank's Information:
-                    {personal_info}
-                    
-                    When you need to perform an action, use the appropriate function. 
-                    Be helpful, proactive, and goal-oriented."""
-                },
-                {
-                    "role": "user", 
-                    "content": user_message
-                }
-            ],
-            functions=FUNCTION_DEFINITIONS,
-            function_call="auto",
-            max_tokens=500,
-            temperature=0.7
-        )
-        
-        message = response.choices[0].message
-        
-        # Check if the model wants to call a function
-        if message.function_call:
-            function_name = message.function_call.name
-            function_args = json.loads(message.function_call.arguments)
-            
-            # Execute the function
-            function_result = execute_function_call(function_name, function_args)
-            
-            # Get a natural language response about the function result
-            follow_up_response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are Frank's AI assistant. Provide a natural, helpful response about the action that was performed."
-                    },
-                    {
-                        "role": "user",
-                        "content": f"User asked: {user_message}\nFunction {function_name} was called and returned: {function_result}\nProvide a helpful response."
-                    }
-                ],
-                max_tokens=300,
-                temperature=0.7
+        for round_number in range(MAX_TOOL_ROUNDS + 1):
+            # On the last round, withhold tools so the model must produce an answer
+            final_round = round_number == MAX_TOOL_ROUNDS
+            response = client.chat.completions.create(
+                model=MODEL,
+                messages=messages,
+                tools=TOOL_DEFINITIONS,
+                tool_choice="none" if final_round else "auto",
+                max_tokens=600,
+                temperature=0.4,
             )
-            
-            return follow_up_response.choices[0].message.content.strip()
-        else:
-            # No function call needed, return the direct response
-            return message.content.strip()
-            
+            message = response.choices[0].message
+            tool_calls = [call for call in (message.tool_calls or []) if getattr(call, "function", None)]
+
+            if not tool_calls:
+                return _to_plain_text(message.content or "") or generate_fallback_response(user_message)
+
+            messages.append({
+                "role": "assistant",
+                "content": message.content,
+                "tool_calls": [
+                    {
+                        "id": call.id,
+                        "type": "function",
+                        "function": {"name": call.function.name, "arguments": call.function.arguments},
+                    }
+                    for call in tool_calls
+                ],
+            })
+            for call in tool_calls:
+                result = tools.execute_tool(call.function.name, call.function.arguments, session_id)
+                messages.append({"role": "tool", "tool_call_id": call.id, "content": result})
+
+        return generate_fallback_response(user_message)
+
     except Exception as e:
         print(f"OpenAI API error: {e}")
         return generate_fallback_response(user_message)

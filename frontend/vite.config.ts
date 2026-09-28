@@ -14,11 +14,6 @@ export default defineConfig(({ mode }) => ({
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/api/, ""),
       },
-      "/api": {
-        target: "http://localhost:5000",
-        changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/api/, ""),
-      },
     },
   },
   plugins: [

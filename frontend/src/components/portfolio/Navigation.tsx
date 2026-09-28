@@ -1,71 +1,46 @@
-import { useState, useEffect, useMemo } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
+
+const links = [
+  { label: 'About', href: '#about' },
+  { label: 'Work', href: '#projects' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Education', href: '#education' },
+];
 
 const Navigation = () => {
-  const [activeSection, setActiveSection] = useState('home');
-
-  const navItems = useMemo(() => [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'education', label: 'Education' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'contact', label: 'Contact' },
-  ], []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = navItems.map(item => document.getElementById(item.id));
-      const scrollPosition = window.scrollY + 100;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(navItems[i].id);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [navItems]);
-
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const [open, setOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="flex items-center space-x-2 h-14 w-auto">
-          <img src="/frank_sign.png" alt="Logo" className="h-21 w-20"/>
-          <div className="text-2xl font-bold bg-hero-gradient bg-clip-text text-transparent">
-            DIVIYAN FRANK JEYASINGH
-          </div>
+    <header className="site-header">
+      <nav className="nav-shell shell" aria-label="Main navigation">
+        <a className="wordmark" href="#home" onClick={() => setOpen(false)} aria-label="Frank Jeyasingh, home">
+          <img className="wordmark-logo" src="/fj-logo.png" alt="" width={362} height={320} />
+          <span className="wordmark-text">DIVIYAN FRANK JEYASINGH</span>
+        </a>
+        <div className="desktop-nav">
+          {links.map((link) => <a key={link.href} href={link.href}>{link.label}</a>)}
         </div>
-
-        <div className="hidden md:flex space-x-1">
-          {navItems.map((item) => (
-            <Button
-              key={item.id}
-              variant={activeSection === item.id ? "default" : "ghost"}
-              onClick={() => scrollToSection(item.id)}
-              className="relative transition-smooth"
-            >
-              {item.label}
-              {activeSection === item.id && (
-                <div className="absolute inset-0 bg-hero-gradient rounded-md -z-10 opacity-20" />
-              )}
-            </Button>
-          ))}
+        <a className="nav-contact" href="#contact">Let's talk <ArrowUpRight size={16} /></a>
+        <button
+          type="button"
+          className="mobile-toggle"
+          aria-label={open ? 'Close navigation' : 'Open navigation'}
+          aria-expanded={open}
+          aria-controls="mobile-navigation"
+          onClick={() => setOpen(!open)}
+        >
+          {open ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </nav>
+      {open && (
+        <div className="mobile-nav" id="mobile-navigation">
+          {links.map((link) => <a key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}</a>)}
+          <a href="#contact" onClick={() => setOpen(false)}>Contact <ArrowUpRight size={16} /></a>
         </div>
-
-      </div>
-    </nav>
+      )}
+    </header>
   );
 };
 

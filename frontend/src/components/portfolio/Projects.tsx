@@ -1,105 +1,48 @@
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ExternalLink, Github } from 'lucide-react';
+import { ArrowUpRight, Bot, HeartPulse, ShieldCheck } from 'lucide-react';
 
-const Projects = () => {
-  const projects = [
-    {
-      title: "Docseron AI",
-      description: "A Django app that uses AWS textract API for OCR and processing handwritten text in PDFs and then uses OpenAI API to compare and evaluate the extracted text with the corrected text and give the final analysis.",
-      technologies: ["React", "TypeScript", "Django", "Python", "AWS-Textract", "OpenAI"],
-      github: "https://github.com/Frankythecoder/ai_exams.git",
-      featured: true
-    },
-    {
-      title: "Agentic AI",
-      description: "A real time OpenAI agent that uses GPT-4o's api, LangChain/LangGraph and acts as an agent for file handling locally and code editing in code editors amongst other tools.",
-      technologies: ["Django", "HTML", "CSS", "GPT-4o API", "Python", "OpenAI"],
-      github: "https://github.com/Frankythecoder/ai_agent.git",
-      featured: true
-    },
-    {
-      title: "Hangman Game with Deep Learning Neural Network",
-      description: "An implementation of the hangman word guessing game with deep learning neural network to make the AI guess the word.",
-      technologies: ["Python tkinter", "Pytorch"],
-      github: "https://github.com/Frankythecoder/Hangman-word-guessing-game.git",
-      featured: false
-    },
-  ];
+const projects = [
+  {
+    title: 'Javelin AI Agent',
+    type: 'AUTONOMOUS AI OPERATOR',
+    description: 'A local-first AI operator with 40+ tools, dry-run planning and per-tool approval. LangGraph state machines and MCP servers connect code execution, documents, multimedia, GitHub, browser automation, Gmail and flight booking.',
+    stack: ['Python', 'LangGraph', 'MCP', 'GPT-4o Vision'],
+    Icon: Bot,
+    className: 'project-indigo',
+  },
+  {
+    title: 'Fraud Detection using ML',
+    type: 'TRANSACTION ANOMALY SCORING',
+    description: 'An unsupervised fraud detection service with eight anomaly detectors and four-model voting. A FastAPI service on Cloud Run explains verdicts with SHAP, alongside a React dashboard for single, batch and CSV scoring.',
+    stack: ['Python', 'FastAPI', 'SHAP', 'React', 'Cloud Run'],
+    Icon: ShieldCheck,
+    className: 'project-amber',
+  },
+  {
+    title: 'Health Monitoring Bot',
+    type: 'AI HEALTHCARE PLATFORM',
+    description: 'A freelance full-stack healthcare platform with an AI Doctor chat, GPT-4 streaming responses, context-aware medical report injection and semantic document search powered by ChromaDB.',
+    stack: ['GPT-4', 'ChromaDB', 'Semantic Search'],
+    Icon: HeartPulse,
+    className: 'project-mint',
+  },
+];
 
-  const featuredProjects = projects.filter(p => p.featured);
-  const otherProjects = projects.filter(p => !p.featured);
-  const allProjects = [...featuredProjects, ...otherProjects];
-
-  return (
-    <section id="projects" className="py-20">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            My <span className="bg-hero-gradient bg-clip-text text-transparent">Projects</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            A showcase of my recent work and personal projects
-          </p>
-        </div>
-
-        {/* Featured + Other Projects */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-semibold mb-8 text-center text-primary">Featured Projects</h3>
-          <div className="grid md:grid-cols-2 gap-8">
-            {allProjects.map((project, index) => (
-              <Card 
-                key={project.title}
-                className={`p-6 bg-card-gradient border-border/50 hover:shadow-glow-primary/10 transition-smooth group ${project.featured ? '' : 'md:col-span-1 p-4'}`}
-              >
-                <h4 className={`${project.featured ? 'text-2xl' : 'text-lg'} font-semibold mb-3 text-primary group-hover:text-accent transition-smooth`}>
-                  {project.title}
-                </h4>
-                <p className={`text-muted-foreground mb-4 leading-relaxed ${project.featured ? '' : 'text-sm mb-3'}`}>
-                  {project.description}
-                </p>
-                <div className={`flex flex-wrap gap-2 mb-6 ${project.featured ? '' : 'gap-1 mb-4'}`}>
-                  {(project.featured ? project.technologies : project.technologies.slice(0, 3)).map((tech) => (
-                    <Badge 
-                      key={tech}
-                      variant="secondary"
-                      className={`${project.featured ? 'bg-secondary/50 hover:bg-primary/20 transition-smooth' : 'text-xs bg-secondary/50'}`}
-                    >
-                      {tech}
-                    </Badge>
-                  ))}
-                  {!project.featured && project.technologies.length > 3 && (
-                    <Badge variant="secondary" className="text-xs bg-secondary/50">
-                      +{project.technologies.length - 3}
-                    </Badge>
-                  )}
-                </div>
-                <div className={`flex flex-wrap gap-2 mb-6 ${project.featured ? '' : 'gap-1 mb-4'}`}>
-                  <Button 
-                    asChild
-                    variant="outline" 
-                    size="sm"
-                    className="flex items-center gap-2 border-primary/30 hover:border-primary"
-                  >
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Github className="h-4 w-4" />
-                      Code
-                    </a>
-                  </Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
+const Projects = () => (
+  <section id="projects" className="section section-anchor projects-section">
+    <div className="shell">
+      <div className="section-heading"><span className="section-index">SELECTED WORK</span><span className="section-line" /><span className="section-aside">IDEAS TO IMPACT</span></div>
+      <div className="section-title-row"><div><span className="tiny-label">A FEW THINGS I'VE MADE</span><h2 className="display-heading">Top <em>Projects.</em></h2></div><p>Real problems. Thoughtful solutions. A little bit of AI magic.</p></div>
+      <div className="projects-grid">
+        {projects.map(({ title, type, description, stack, Icon, className }) => (
+          <article className={`project-card ${className}`}>
+            <div className="project-visual"><Icon className="project-art" strokeWidth={1} aria-hidden="true" /><span className="visual-caption">{type}</span></div>
+            <div className="project-body"><div className="project-topline"><span>{type}</span></div><h3>{title}</h3><p>{description}</p><div className="project-tags">{stack.map((item) => <span key={item}>{item}</span>)}</div></div>
+          </article>
+        ))}
       </div>
-    </section>
-  );
-};
+      <a className="all-work" href="https://github.com/Frankythecoder" target="_blank" rel="noopener noreferrer">More projects on GitHub <ArrowUpRight size={18} /></a>
+    </div>
+  </section>
+);
 
 export default Projects;
-
